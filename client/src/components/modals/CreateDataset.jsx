@@ -3,6 +3,7 @@ import Modal from 'react-modal';
 import SourceSelection from './createDataset/SourceSelection';
 import FileSelection from './createDataset/FileSelection';
 import Settings from '../dataset/Settings';
+import SubmitModal from './SubmitModal';
 import { createDataset } from '../../actions/dataset';
 
 require('../../styles/CreateDataset.scss');
@@ -21,6 +22,8 @@ export default class CreateDataset extends Component {
         columns: null,
       },
     };
+    this.handleNextOrImport = this.handleNextOrImport.bind(this);
+    this.handlePrevious = this.handlePrevious.bind(this);
   }
 
   pageComponent(page) {
@@ -93,6 +96,8 @@ export default class CreateDataset extends Component {
       this.setState({ currentPage: 'file' });
     } else if (currentPage === 'file') {
       this.setState({ currentPage: 'source' });
+    } else {
+      this.props.onCancel();
     }
   }
 
@@ -100,36 +105,23 @@ export default class CreateDataset extends Component {
     const { onCancel } = this.props;
     const { currentPage } = this.state;
     return (
-      <Modal isOpen>
+      <SubmitModal
+        isOpen
+        title="New Dataset"
+        onSubmit={this.handleNextOrImport}
+        onCancel={this.handlePrevious}
+        isSubmitDisabled={this.isNextOrImportDisabled()}
+        submitLabel={currentPage === 'settings' ? 'Import' : 'Next'}
+        cancelLabel={currentPage === 'source' ? 'Cancel' : 'Previous'}>
         <div className="CreateDataset">
-          <h3 className="modalTitle">New Dataset</h3>
-          <button className="btn close clickable" onClick={onCancel}>
-            X
-          </button>
           <ul className="tabMenu">
             <li className={`tab ${currentPage === 'source' ? 'selected' : null}`}>Source</li>
             <li className={`tab ${currentPage === 'file' ? 'selected' : null}`}>File / Project</li>
             <li className={`tab ${currentPage === 'settings' ? 'selected' : null}`}>Settings</li>
           </ul>
           {this.pageComponent(currentPage)}
-          <div className={`movementControls ${currentPage}`}>
-            <div className="buttonContainer">
-              <button
-                className="btn previous clickable"
-                disabled={currentPage === 'source'}
-                onClick={this.handlePrevious.bind(this)}>
-                Previous
-              </button>
-              <button
-                className="btn next clickable"
-                disabled={this.isNextOrImportDisabled()}
-                onClick={this.handleNextOrImport.bind(this)}>
-                {currentPage === 'settings' ? 'Import' : 'Next'}
-              </button>
-            </div>
-          </div>
         </div>
-      </Modal>
+      </SubmitModal>
     );
   }
 }

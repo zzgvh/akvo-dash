@@ -1,73 +1,60 @@
 import React, { Component, PropTypes } from 'react';
 import Modal from 'react-modal';
+import SubmitModal from './SubmitModal';
 import { createCollection } from '../../actions/collection';
 
 
 require('../../styles/CreateCollectionModal.scss');
+
+const modalStyle = {
+  content: {
+    width: 400,
+    height: 250,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+}
 
 export default class CreateCollection extends Component {
   constructor() {
     super();
     this.state = { name: '' };
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
   }
 
   handleInputChange(evt) {
     this.setState({ name: evt.target.value.trim() });
   }
 
+  handleSubmit() {
+    this.setState({ name: '' });
+    this.props.onSubmit(createCollection(this.state.name));
+  }
+
+  handleCancel() {
+    this.setState({ name: '' });
+    this.props.onCancel();
+  }
+
   render() {
-    const { onCancel, onSubmit } = this.props;
     return (
-      <Modal
+      <SubmitModal
         isOpen
-        style={{
-          content: {
-            width: 400,
-            height: 250,
-            marginLeft: 'auto',
-            marginRight: 'auto',
-          },
-        }}>
-        <div className="CreateCollectionModal">
-          <h2 className="title">Create a new collection</h2>
-          <button
-            className="close clickable"
-            onClick={() => {
-              this.setState({ name: '' });
-              onCancel();
-            }}>
-            X
-          </button>
-          <div className="contents">
-            <label htmlFor="nameInput">Collection name</label>
-            <input
-              id="nameInput"
-              onChange={this.handleInputChange}
-              type="text"
-              placeholder="Collection name"/>
-          </div>
-          <div className="controls">
-            <button
-              className="cancel clickable"
-              onClick={() => {
-                this.setState({ name: '' });
-                onCancel();
-              }}>
-              Cancel
-            </button>
-            <button
-              className="create clickable"
-              disabled={this.state.name === ''}
-              onClick={() => {
-                this.setState({ name: '' });
-                onSubmit(createCollection(this.state.name));
-              }}>
-              Create
-            </button>
-          </div>
-        </div>
-      </Modal>
+        style={modalStyle}
+        onSubmit={this.handleSubmit}
+        onCancel={this.handleCancel}
+        title="Create Collection"
+        submitLabel="Create"
+        isSubmitDisabled={this.state.name === ''}>
+        <label htmlFor="nameInput">Collection name</label>
+        <input
+          id="nameInput"
+          onChange={this.handleInputChange}
+          type="text"
+          placeholder="Collection name"/>
+      </SubmitModal>
     );
   }
 }
