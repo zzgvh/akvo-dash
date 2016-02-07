@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import Modal from 'react-modal';
 import SubmitModal from './SubmitModal';
 import { createCollection } from '../../actions/collection';
 
@@ -13,7 +12,7 @@ const modalStyle = {
     marginLeft: 'auto',
     marginRight: 'auto',
   },
-}
+};
 
 export default class CreateCollection extends Component {
   constructor() {

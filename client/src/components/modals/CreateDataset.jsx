@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import Modal from 'react-modal';
 import SourceSelection from './createDataset/SourceSelection';
 import FileSelection from './createDataset/FileSelection';
 import Settings from '../dataset/Settings';
@@ -102,7 +101,6 @@ export default class CreateDataset extends Component {
   }
 
   render() {
-    const { onCancel } = this.props;
     const { currentPage } = this.state;
     return (
       <SubmitModal

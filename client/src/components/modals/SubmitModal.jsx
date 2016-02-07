@@ -46,7 +46,7 @@ export default class SubmitModal extends Component {
           </div>
         </div>
       </Modal>
-    )
+    );
   }
 }
 
@@ -54,7 +54,7 @@ SubmitModal.defaultProps = {
   submitLabel: 'Submit',
   cancelLabel: 'Cancel',
   isSubmitDisabled: false,
-}
+};
 
 SubmitModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
@@ -66,4 +66,4 @@ SubmitModal.propTypes = {
   onCancel: PropTypes.func.isRequired,
   isSubmitDisabled: PropTypes.bool,
   children: PropTypes.node.isRequired,
-}
+};
