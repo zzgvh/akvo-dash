@@ -15,7 +15,7 @@ before_install:
 - cd ../backend
 
 script:
-- lein2 do clean, check, test :all
+- lein2 do clean, check, test
 - cd ../client
 - npm run lint
 - npm test
