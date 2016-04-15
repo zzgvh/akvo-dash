@@ -13,7 +13,7 @@ before_install:
 - npm config set spin false
 - npm install
 - cd ../backend/provision
-- setup-up.sh
+- ./setup-up.sh
 - cd ../
 
 script:
